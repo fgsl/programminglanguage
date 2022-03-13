@@ -1,2 +1,3 @@
-# programminglanguage
-Classes about programming language
+# Programming Language
+
+Classes about programming languages
