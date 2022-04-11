@@ -26,8 +26,8 @@ public class UmaCaixaDeTexto extends JFrame
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            String string = "Usu·rio pressionou enter";
-            // usu·rio pressionou Enter no JTextField textField1
+            String string = "Usu√°rio pressionou enter";
+            // usu√°rio pressionou Enter no JTextField textField1
             JOptionPane.showMessageDialog(null,string);
         }
     } // fim da classe TextFieldHandler interna private
