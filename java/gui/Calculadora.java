@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Panel;
@@ -8,12 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
-
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.lang.Math;
 
 public class Calculadora extends JFrame {
+    private final String raizquadrada = "\u221A";
     private final GridLayout gridBotoes = new GridLayout(5,7,4,4);
     private final GridLayout gridPainel = new GridLayout(2,1);
     private final Panel visorPainel = new Panel();
@@ -42,9 +42,6 @@ public class Calculadora extends JFrame {
         this.adicionarBotoes(botoesPainel);
         botoesPainel.setLayout(gridBotoes);
         this.add(botoesPainel);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600,600);
-        this.setVisible(true);
     }
 
     private void adicionarBotoes(Panel botoesPainel)
@@ -97,7 +94,7 @@ public class Calculadora extends JFrame {
         // quarta linha
         botoesPainel.add(this.fabricarBotao("e"));
         botoesPainel.add(this.fabricarBotao("tan"));
-        botoesPainel.add(this.fabricarBotao("V"));
+        botoesPainel.add(this.fabricarBotao(Calculadora.this.raizquadrada));
         botoesPainel.add(this.fabricarBotao("1"));
         botoesPainel.add(this.fabricarBotao("2"));
         botoesPainel.add(this.fabricarBotao("3"));
@@ -111,7 +108,7 @@ public class Calculadora extends JFrame {
         botoesPainel.add(this.fabricarBotao("EXP"));
         botoesPainel.add(this.fabricarBotao("x^y"));
         botoesPainel.add(this.fabricarBotao("0"));
-        botoesPainel.add(this.fabricarBotao("."));
+        botoesPainel.add(this.fabricarBotao(","));
         botoesPainel.add(this.fabricarBotao("="));
         botoesPainel.add(this.fabricarBotao("+"));
     }
@@ -141,7 +138,6 @@ public class Calculadora extends JFrame {
             }
 
             Integer numero = 0;
-
             Boolean botaoNumerico = true;
 
             try {
@@ -162,6 +158,35 @@ public class Calculadora extends JFrame {
                 return;
             }
 
+            if (textoDoBotao.equals("PI")){
+                visor.setText(String.valueOf(Math.PI));
+                return;
+            }
+
+            if (textoDoBotao.equals("cos")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(Math.cos(acumulador)));
+                return;
+            }
+            
+            if (textoDoBotao.equals("sin")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(Math.sin(acumulador)));
+                return;
+            }
+            
+            if (textoDoBotao.equals("tan")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(Math.tan(acumulador)));
+                return;
+            }            
+            
+            if (textoDoBotao.equals(Calculadora.this.raizquadrada)){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(Math.sqrt(acumulador)));
+                return;
+            }
+
             if (textoDoBotao.equals(",") &&
                 !visor.getText().equals("") &&
                 !Calculadora.this.usouVirgula){
@@ -174,7 +199,16 @@ public class Calculadora extends JFrame {
             if (textoDoBotao.equals("+") ||
                 textoDoBotao.equals("-") ||
                 textoDoBotao.equals("/") ||
-                textoDoBotao.equals("X")){
+                textoDoBotao.equals("X") ||
+                textoDoBotao.equals("%") ||
+                textoDoBotao.equals("x^y") ||
+                textoDoBotao.equals("EXP") ||
+                textoDoBotao.equals("x!") ||
+                textoDoBotao.equals("PI") ||
+                textoDoBotao.equals("log") ||
+                textoDoBotao.equals("cos") ||
+                textoDoBotao.equals("√") ||
+                textoDoBotao.equals("tan")) {
                 Calculadora.this.operacao = textoDoBotao;
                 Calculadora.this.acumulador = Double.parseDouble(visor.getText());
                 memoria.setText(visor.getText() + textoDoBotao); 
@@ -184,7 +218,21 @@ public class Calculadora extends JFrame {
 
             if (textoDoBotao.equals("=")){
                 Double resultado = 0.0;
-                Double valorAtual = Double.parseDouble(visor.getText());
+                String valorVisor = visor.getText();
+		        Double valorAtual = 0.0;
+		        try { // O visor pode estar vazio
+                    valorAtual = Double.parseDouble(valorVisor);
+		        } catch (Exception e) { // %
+		            valorVisor = memoria.getText();
+	                valorVisor = valorVisor.replace("%","");
+                    valorVisor = valorVisor.replace("x!","");
+                    valorVisor = valorVisor.replace("PI","");
+                    valorVisor = valorVisor.replace("log","");
+                    valorVisor = valorVisor.replace("cos","");
+                    valorVisor = valorVisor.replace("tan","");
+                    valorVisor = valorVisor.replace("√","");    
+        		    valorAtual = Double.parseDouble(valorVisor);	
+		        }
                 Double acumulador = Calculadora.this.acumulador;
                 switch (Calculadora.this.operacao) {
                     case "+":
@@ -198,10 +246,40 @@ public class Calculadora extends JFrame {
                         break;
                     case "/":
                         resultado = acumulador / valorAtual;
-                        break;                
+                        break;
+                    case "%":
+                        resultado = acumulador / 100;
+                        break;
+                    case "x^y":
+                        resultado = Math.pow(acumulador, valorAtual);
+                        break;
+                    case "EXP":
+                        resultado = acumulador * (Math.pow(10, valorAtual));
+                        break;
+                    case "x!": 
+                        int i = 1;
+                        resultado = 1.0;
+
+                        while(i <= acumulador) {
+                            resultado = resultado * i;
+                            i++;
+                        } 
+                        break;
+                    case "log":
+                        resultado = Math.log10(acumulador);
+                        break;
+                    case "tan":
+                        resultado = Math.tan(acumulador);
+                        break;
                     default:
                         break;
                 }
+                
+                if(textoDoBotao.equals("?")) {
+                    String sobre = "Davi Lacerda Fabiano";
+                    JOptionPane.showMessageDialog(null, sobre);
+                }
+                
                 memoria.setText(memoria.getText() + visor.getText() + "=" + String.valueOf(resultado));
                 visor.setText(String.valueOf(resultado));
                 Calculadora.this.limpar = true;
@@ -211,5 +289,8 @@ public class Calculadora extends JFrame {
 
     public static void main(String[] args) {
         Calculadora calculadora = new Calculadora();
+        calculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        calculadora.setSize(600,600);
+        calculadora.setVisible(true);
     }
 }
