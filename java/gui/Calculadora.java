@@ -59,8 +59,8 @@ public class Calculadora extends JFrame {
         botoesPainel.add(this.fabricarBotao("?"));
         botoesPainel.add(this.fabricarBotao("BIN"));
         botoesPainel.add(this.fabricarBotao("x!"));
-        botoesPainel.add(this.fabricarBotao("("));
-        botoesPainel.add(this.fabricarBotao(")"));
+        botoesPainel.add(this.fabricarBotao("-n"));
+        botoesPainel.add(this.fabricarBotao("1/x"));
         botoesPainel.add(this.fabricarBotao("%"));
         botoesPainel.add(this.fabricarBotao("AC"));
     }
@@ -151,15 +151,25 @@ public class Calculadora extends JFrame {
                     visor.setText("");
                     Calculadora.this.limpar = false;
                     Calculadora.this.usouVirgula = false;
-                }                
+                } 
+                
                 String textoDoVisor = visor.getText();
                 textoDoVisor = textoDoVisor + textoDoBotao;
                 visor.setText(textoDoVisor);
                 return;
             }
 
+            if(textoDoBotao.equals("?")) {
+                String sobre = "Adrian Torquetti";
+                JOptionPane.showMessageDialog(null, sobre);
+            }
+
             if (textoDoBotao.equals("PI")){
                 visor.setText(String.valueOf(Math.PI));
+                return;
+            }
+            if (textoDoBotao.equals("e")){
+                visor.setText(String.valueOf(2.71828182846));
                 return;
             }
 
@@ -187,12 +197,42 @@ public class Calculadora extends JFrame {
                 return;
             }
 
+            if (textoDoBotao.equals("HEX")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(Integer.toHexString(acumulador.intValue()));
+                return;
+            }
+
+            if (textoDoBotao.equals("BIN")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(Integer.toBinaryString(acumulador.intValue()));
+                return;
+            }
+
+
             if (textoDoBotao.equals(",") &&
                 !visor.getText().equals("") &&
                 !Calculadora.this.usouVirgula){
                 visor.setText(visor.getText() + ",");
                 Calculadora.this.usouVirgula = true;
             }
+
+            if (textoDoBotao.equals("-n")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(acumulador * (-1)));
+            }
+
+            if (textoDoBotao.equals("1/x")){
+                acumulador = Double.parseDouble(visor.getText());
+                visor.setText(String.valueOf(1/acumulador));
+            }
+
+            if (textoDoBotao.equals("?")){
+                visor.setText(String.valueOf(acumulador));
+                return;
+            }
+
+           
                         
             JLabel memoria = Calculadora.this.memoria;
 
@@ -200,15 +240,25 @@ public class Calculadora extends JFrame {
                 textoDoBotao.equals("-") ||
                 textoDoBotao.equals("/") ||
                 textoDoBotao.equals("X") ||
-                textoDoBotao.equals("%") ||
-                textoDoBotao.equals("x^y") ||
-                textoDoBotao.equals("EXP") ||
+                textoDoBotao.equals("?") ||
+                textoDoBotao.equals("BIN") ||
                 textoDoBotao.equals("x!") ||
+                textoDoBotao.equals("HEX") ||
+                textoDoBotao.equals("sin") ||
+                textoDoBotao.equals("ln") ||
                 textoDoBotao.equals("PI") ||
-                textoDoBotao.equals("log") ||
                 textoDoBotao.equals("cos") ||
+                textoDoBotao.equals("log") ||
+                textoDoBotao.equals("e") ||
+                textoDoBotao.equals("tan") ||
                 textoDoBotao.equals("√") ||
-                textoDoBotao.equals("tan")) {
+                textoDoBotao.equals("ANS") ||
+                textoDoBotao.equals("EXP") ||
+                textoDoBotao.equals("x^y") ||
+                textoDoBotao.equals(".")   ||
+                textoDoBotao.equals("-n") ||
+                textoDoBotao.equals("1/x") ||
+                textoDoBotao.equals("%")) {
                 Calculadora.this.operacao = textoDoBotao;
                 Calculadora.this.acumulador = Double.parseDouble(visor.getText());
                 memoria.setText(visor.getText() + textoDoBotao); 
@@ -271,14 +321,37 @@ public class Calculadora extends JFrame {
                     case "tan":
                         resultado = Math.tan(acumulador);
                         break;
+                    case "cos":
+                        resultado = Math.cos(acumulador);
+                        break;
+                    case "ln":
+                        resultado = Math.log(acumulador);
+                        break;
+                    case "√":
+                        resultado = Math.sqrt(acumulador);
+                        break;
+                    case "sin":
+                        resultado = Math.sin(acumulador); 
+                        break;        
+                    case "ANS":
+                        acumulador = resultado;
+                        break;
+                    case "-n":
+                        resultado = valorAtual * - 1;
+                        break;
+                    case "1/n": 
+                        resultado = 1 / valorAtual;
+                        break;
+                    
+                        
+                        
+                        
+
                     default:
                         break;
                 }
                 
-                if(textoDoBotao.equals("?")) {
-                    String sobre = "Davi Lacerda Fabiano";
-                    JOptionPane.showMessageDialog(null, sobre);
-                }
+                
                 
                 memoria.setText(memoria.getText() + visor.getText() + "=" + String.valueOf(resultado));
                 visor.setText(String.valueOf(resultado));
