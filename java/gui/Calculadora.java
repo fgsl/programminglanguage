@@ -1,4 +1,4 @@
-﻿import javax.swing.JFrame;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -298,9 +298,6 @@ public class Calculadora extends JFrame {
                     break;
                 case "ANS":
                     acumulador = resultado;
-                    break;
-                case "-n":
-                    resultado = valorAtual * - 1;
                     break;
                 default:
                     break;
