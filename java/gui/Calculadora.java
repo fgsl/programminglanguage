@@ -111,7 +111,7 @@ public class Calculadora extends JFrame {
             if (textoDoBotao.equals(",") &&
                 !visor.getText().equals("") &&
                 !Calculadora.this.usouVirgula){
-                visor.setText(visor.getText() + ",");
+                visor.setText(visor.getText() + ".");
                 Calculadora.this.usouVirgula = true;
             }
 
@@ -244,20 +244,20 @@ public class Calculadora extends JFrame {
 
             Double resultado = 0.0;
             String valorVisor = visor.getText();
-		    Double valorAtual = 0.0;
-		    try { // O visor pode estar vazio
+	    Double valorAtual = 0.0;
+	    try { // O visor pode estar vazio
                 valorAtual = Double.parseDouble(valorVisor);
-		    } catch (Exception e) { // %
-		        valorVisor = memoria.getText();
-	            valorVisor = valorVisor.replace("%","");
+	    } catch (Exception e) { // %
+	        valorVisor = memoria.getText();
+                valorVisor = valorVisor.replace("%","");
                 valorVisor = valorVisor.replace("x!","");
                 valorVisor = valorVisor.replace("PI","");
                 valorVisor = valorVisor.replace("log","");
                 valorVisor = valorVisor.replace("cos","");
                 valorVisor = valorVisor.replace("tan","");
-                valorVisor = valorVisor.replace("√","");    
-        	    valorAtual = Double.parseDouble(valorVisor);	
-		    }
+                valorVisor = valorVisor.replace("√","");		
+     	        valorAtual = Double.parseDouble(valorVisor);	
+	    }
             Double acumulador = Calculadora.this.acumulador;
             switch (Calculadora.this.operacao) {
                 case "+":
