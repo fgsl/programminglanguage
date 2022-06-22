@@ -31,7 +31,7 @@ public class TicTacToeDavi extends JFrame {
     private final JLabel jogadorO; // jogador O
     private final JLabel jogadorX; // jogador X
 
-    Integer vitoria_um = 0, vitoria_dois = 0;
+    Integer placarJogador0 = 0, placarJogadorX = 0;
     String placar;
 
     private boolean gameOver = false;
@@ -140,14 +140,14 @@ public class TicTacToeDavi extends JFrame {
             for(i = 0; i < 3; i++) {
                 if (this.isCellsEquals(i, i + 1, i + 2)) {
                     if (cells[0].getText().equals("0")) {
-                        vitoria_um++;
-                        placar = "Jogador O: " + vitoria_um;
+                        placarJogador0++;
+                        placar = "Jogador O: " + placarJogador0;
                         jogadorO.setText(placar);
 
                         JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você ganhou!");
                     } else {
-                        vitoria_dois++;
-                        placar = "Jogador X: " + vitoria_dois;
+                        placarJogadorX++;
+                        placar = "Jogador X: " + placarJogadorX;
                         jogadorX.setText(placar);
 
                         JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você perdeu!");
@@ -160,14 +160,14 @@ public class TicTacToeDavi extends JFrame {
             for(i = 0; i < 3; i++) {
                 if (this.isCellsEquals(i, i + 3, i + 6)) {
                     if (cells[0].getText().equals("0")) {
-                        vitoria_um ++;
-                        placar = "Jogador O: " + vitoria_um;
+                        placarJogador0 ++;
+                        placar = "Jogador O: " + placarJogador0;
                         jogadorO.setText(placar);
 
                         JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você ganhou!");
                     } else {
-                        vitoria_dois++;
-                        placar = "Jogador X: " + vitoria_dois;
+                        placarJogadorX++;
+                        placar = "Jogador X: " + placarJogadorX;
                         jogadorX.setText(placar);
 
                         JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você perdeu!");
@@ -177,16 +177,32 @@ public class TicTacToeDavi extends JFrame {
             }
             
             // diagonais
-            if (this.isCellsEquals(0, 4, 8) || this.isCellsEquals(2, 4, 6)) {
+            if (this.isCellsEquals(0, 4, 8)) {
                 if (cells[0].getText().equals("0")) {
-                    vitoria_um ++;
-                    placar = "Jogador O: " + vitoria_um;
+                    placarJogador0 ++;
+                    placar = "Jogador O: " + placarJogador0;
                     jogadorO.setText(placar);
 
                     JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você ganhou!");
                 } else {
-                    vitoria_dois ++;
-                    placar = "Jogador X: " + (vitoria_dois + 1);
+                    placarJogadorX ++;
+                    placar = "Jogador X: " + placarJogadorX;
+                    jogadorX.setText(placar);
+
+                    JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você perdeu!");
+                }
+                return true;
+            }
+            if (this.isCellsEquals(2, 4, 6)) {
+                if (cells[2].getText().equals("0")) {
+                    placarJogador0 ++;
+                    placar = "Jogador O: " + placarJogador0;
+                    jogadorO.setText(placar);
+
+                    JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você ganhou!");
+                } else {
+                    placarJogadorX ++;
+                    placar = "Jogador X: " + placarJogadorX;
                     jogadorX.setText(placar);
 
                     JOptionPane.showMessageDialog(TicTacToeDavi.this, "Você perdeu!");

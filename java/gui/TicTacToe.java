@@ -134,8 +134,16 @@ class TicTacToe extends JFrame
                 }
             }
             // diagonais
-            if (this.isCellsEquals(0, 4, 8) || this.isCellsEquals(2, 4, 6)){
+            if (this.isCellsEquals(0, 4, 8)){
                 if (cells[0].getText().equals("0")){
+                    JOptionPane.showMessageDialog(TicTacToe.this, "Você ganhou!");
+                } else {
+                    JOptionPane.showMessageDialog(TicTacToe.this, "Você perdeu!");
+                }
+                return true;
+            }
+            if (this.isCellsEquals(2, 4, 6)){
+                if (cells[2].getText().equals("0")){
                     JOptionPane.showMessageDialog(TicTacToe.this, "Você ganhou!");
                 } else {
                     JOptionPane.showMessageDialog(TicTacToe.this, "Você perdeu!");
